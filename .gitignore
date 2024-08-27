@@ -3,7 +3,7 @@
 *.m4a
 
 # Required executables
-./bin/
+bin/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
