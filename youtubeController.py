@@ -1,9 +1,10 @@
 import yt_dlp
 
 class YoutubeDownloader(yt_dlp.YoutubeDL):
-    def __init__(self, progress_hook=None):
+    def __init__(self, progress_hook=None, logger=None):
         self.ydl_opts = {
         'format': 'm4a/bestaudio/best',
+        "logger":logger,
         # ℹ️ See help(yt_dlp.postprocessor) for a list of available Postprocessors and their arguments
         'postprocessors': [{  # Extract audio using ffmpeg
             'key': 'FFmpegExtractAudio',
@@ -15,6 +16,9 @@ class YoutubeDownloader(yt_dlp.YoutubeDL):
         self.download([link])
     def change_out_folder(self, new_folder: str):
         self.ydl_opts['paths']={"home": f"{new_folder}"}
+    def extract_video_info(self, link):
+        info = self.extract_info(link, download=False)
+    
 
 
 
