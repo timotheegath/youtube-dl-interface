@@ -10,7 +10,9 @@ class YoutubeDownloader(yt_dlp.YoutubeDL):
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',        
         }],
+        "ffmpeg_location":"./bin/",
         "progress_hooks":[progress_hook]}
+        
         super().__init__(self.ydl_opts)
     def download_to_mp3(self, link):
         self.download([link])
