@@ -1,4 +1,4 @@
-# youtube-dl-interface
+# yt-dlp-interface
 Implementation of youtube-dl with an interface in Python.
 ##  Credits
 - Credits to the [yt-dlp](https://github.com/yt-dlp/yt-dlp?tab=readme-ov-file#embedding-yt-dlp) library who powers this very basic GUI.
