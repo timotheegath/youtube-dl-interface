@@ -1,6 +1,6 @@
 # Sound files
 *.mp3
-*.m4e
+*.m4a
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
