@@ -1,4 +1,4 @@
-from UI import DownloaderApplication
+from app.app import DownloaderApplication
 import sys
 
 
