@@ -2,6 +2,9 @@
 *.mp3
 *.m4a
 
+# Required executables
+bin/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

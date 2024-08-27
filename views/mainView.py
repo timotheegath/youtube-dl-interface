@@ -9,7 +9,7 @@ class DownloaderUI(QMainWindow):
     
     def __init__(self):
         super().__init__()
-        ui_file_name = "main.ui"       
+        ui_file_name = "./views/main.ui"       
 
         uic.load_ui.loadUi(ui_file_name, self)        
         self.DestinationPath.setText(os.getcwd())    
