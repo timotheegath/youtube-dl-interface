@@ -1,7 +1,7 @@
 import yt_dlp
 
 class YoutubeDownloader(yt_dlp.YoutubeDL):
-    def __init__(self, progress_hook=None, logger=None):
+    def __init__(self, progress_hook, logger, ffmpeg_path: str = None):
         self.ydl_opts = {
         'format': 'm4a/bestaudio/best',
         "logger":logger,
@@ -10,8 +10,9 @@ class YoutubeDownloader(yt_dlp.YoutubeDL):
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',        
         }],
-        "ffmpeg_location":"./bin/",
         "progress_hooks":[progress_hook]}
+        if ffmpeg_path:
+            self.ydl_opts["ffmpeg_location"] = ffmpeg_path
         
         super().__init__(self.ydl_opts)
     def download_to_mp3(self, link):

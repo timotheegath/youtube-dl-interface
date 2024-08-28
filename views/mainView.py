@@ -1,16 +1,19 @@
 
 from PyQt6.QtWidgets import QMainWindow
+from views.MainViewTemplate import Ui_MainWindow
+from PyQt6.uic import load_ui
 
-import os
-from PyQt6 import uic
 
 
-class DownloaderUI(QMainWindow):
+class DownloaderUI(QMainWindow, Ui_MainWindow):
     
-    def __init__(self):
+    def __init__(self, root: str, load_dev_ui: bool = False):
         super().__init__()
-        ui_file_name = "./views/main.ui"       
+        if load_dev_ui:
+            ui_file_name = "./views/main.ui"       
 
-        uic.load_ui.loadUi(ui_file_name, self)        
-        self.DestinationPath.setText(os.getcwd())    
+            load_ui.loadUi(ui_file_name, self)
+        else:
+            self.setupUi(self)
+        self.DestinationPath.setText(root)    
 

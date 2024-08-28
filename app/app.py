@@ -32,11 +32,13 @@ class DownloadLogger:
 class DownloaderApplication(QApplication):
     DownloaderWindow : DownloaderUI
     ytDownloaderService: YoutubeDownloader
-    def __init__(self, argv: List[str]) -> None:
+    def __init__(self, argv: List[str], root:str, load_dev_ui: bool = False) -> None:
         super().__init__(argv)
-        self.DownloaderWindow = DownloaderUI()
-        self.ytDownloaderService = YoutubeDownloader(self.download_progress_hook, logger=DownloadLogger(self.DownloaderWindow))
+        self.rootDir = root
+        self.DownloaderWindow = DownloaderUI(root=self.rootDir, load_dev_ui=load_dev_ui)
+        self.ytDownloaderService = YoutubeDownloader(self.download_progress_hook, logger=DownloadLogger(self.DownloaderWindow), ffmpeg_path=f"{root}\\bin")
         self.setup_events()
+        
         self.DownloaderWindow.show()
     
     def download_progress_hook(self, d):

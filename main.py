@@ -1,8 +1,9 @@
 from app.app import DownloaderApplication
 import sys
+from os import getcwd
 
-
-
-app = DownloaderApplication(sys.argv)
+print(f"Current wd: {getcwd()}")
+print(f"Sys args: {sys.argv}")
+app = DownloaderApplication(sys.argv, root=getcwd(), load_dev_ui=False)
 
 sys.exit(app.exec())
