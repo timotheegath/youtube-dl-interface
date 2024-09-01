@@ -29,9 +29,10 @@ class FFMPEG_NotFoundDialog(QMessageBox):
         self.pick_file_button = self.addButton("Choose file...", QMessageBox.ButtonRole.AcceptRole)
 
     def ffmpeg_not_found(self):
-        button = self.exec()
-        if button == self.pick_file_button:
-            PickFFMPEGDialog.pick_ffmpeg(self)
+        self.exec()
+        if self.clickedButton() == self.pick_file_button:
+            return PickFFMPEGDialog.pick_ffmpeg(self)
+        
 
     
 class PickFFMPEGDialog(QFileDialog):
