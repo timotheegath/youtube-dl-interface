@@ -1,8 +1,9 @@
-from views.dialogs import ErrorDialog, PickFolderDialog
+from views.dialogs import ErrorDialog, PickFolderDialog, FFMPEG_NotFoundDialog, PickFFMPEGDialog
 from views.mainView import DownloaderUI
 from PyQt6.QtWidgets import QApplication
 from typing import List
 from app.youtubeController import YoutubeDownloader
+import subprocess
 
 
 class DownloadLogger:
@@ -36,10 +37,12 @@ class DownloaderApplication(QApplication):
         super().__init__(argv)
         self.rootDir = root
         self.DownloaderWindow = DownloaderUI(root=self.rootDir, load_dev_ui=load_dev_ui)
-        self.ytDownloaderService = YoutubeDownloader(self.download_progress_hook, logger=DownloadLogger(self.DownloaderWindow), ffmpeg_path=f"{root}\\bin")
+        
+        self.ytDownloaderService = YoutubeDownloader(self.download_progress_hook, logger=DownloadLogger(self.DownloaderWindow))
         self.setup_events()
         
         self.DownloaderWindow.show()
+        self.find_ffmpeg()
     
     def download_progress_hook(self, d):
         if d['status'] == 'started':
@@ -61,3 +64,23 @@ class DownloaderApplication(QApplication):
     def setup_events(self):
         self.DownloaderWindow.DownloadButton.clicked.connect(self.download_video)
         self.DownloaderWindow.ChooseFolderButton.clicked.connect(self.choose_file)
+        self.DownloaderWindow.actionFFMPEG_Path.triggered.connect(self.update_ffmpeg_path)
+    def update_ffmpeg_path(self):
+            new_path = PickFFMPEGDialog.pick_ffmpeg(self.DownloaderWindow, self.ytDownloaderService.ffmpeg_path)
+            if new_path:
+                self.ytDownloaderService.update_ffmpeg_path(new_path=new_path)
+
+    def find_ffmpeg(self):
+    # Check if ffmpeg is in the system PATH
+        try:
+            subprocess.run(['ffmpeg', '-version'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            print("ffmpeg is found in the system PATH.")
+            return 'ffmpeg'
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            print("ffmpeg is not found in the system PATH.")
+            try: 
+                subprocess.run([f'{self.ytDownloaderService.ffmpeg_path}\\ffmpeg', '-version'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                print(f"ffmpeg is found in the {self.ytDownloaderService.ffmpeg_path} PATH.")
+            except (subprocess.CalledProcessError, FileNotFoundError):
+                FFMPEG_NotFoundDialog(self.DownloaderWindow).ffmpeg_not_found()
+            return None
