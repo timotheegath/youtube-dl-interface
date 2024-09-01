@@ -243,8 +243,20 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionFFMPEG_Path"/>
+   </widget>
+   <addaction name="menuOptions"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionFFMPEG_Path">
+   <property name="text">
+    <string>FFMPEG Path</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
